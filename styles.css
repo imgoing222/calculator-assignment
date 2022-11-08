@@ -46,3 +46,8 @@ button {
 	border-radius: 50%;
 	cursor: pointer;
 }
+
+.orange {
+	background-color: orange;
+	color: white;
+}
