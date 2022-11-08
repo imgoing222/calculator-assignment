@@ -1,5 +1,12 @@
 const clickDigit = (text) => cy.contains(".digit", text).click();
-const clickOperator = (text) => cy.get(text).click();
+const clickOperator = (text) =>
+	cy.get(".operator").each((ele) => {
+		if (ele.text() === text) {
+			console.log(ele.text());
+
+			ele.click();
+		}
+	});
 const getDisplayNumber = (text) => cy.get(".result").should("have.text", text);
 
 describe("연산 테스트", () => {
@@ -7,14 +14,14 @@ describe("연산 테스트", () => {
 		cy.visit("http://127.0.0.1:5500/index.html");
 
 		clickDigit("1");
-		clickOperator(".plusMinusSign");
-		clickOperator(".plus");
+		clickOperator("+/-");
+		clickOperator("+");
 		clickDigit("3");
-		clickOperator(".plus");
+		clickOperator("+");
 		clickDigit("5");
-		clickOperator(".times");
+		clickOperator("x");
 		clickDigit("2");
-		clickOperator(".equals");
+		clickOperator("=");
 
 		getDisplayNumber("12");
 	});
@@ -40,7 +47,8 @@ describe("버튼 테스트", () => {
 		clickOperator("%");
 		clickOperator("+");
 		clickDigit("7");
+		clickOperator("=");
 
-		getDisplayNumber("107");
+		getDisplayNumber("8");
 	});
 });

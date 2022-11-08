@@ -30,7 +30,8 @@ class App {
 					return;
 				}
 				if (currentOperator === "%") {
-					calculator.stack.push(Number(calculator.current) / 100);
+					calculator.current = Number(calculator.current) / 100;
+					this.showNumberOnDisplay(calculator.current);
 					return;
 				}
 				if (currentOperator === "+/-") {

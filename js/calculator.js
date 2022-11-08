@@ -25,9 +25,9 @@ class Calculator {
 	equals() {
 		const res = this.stack.reduce((sum, curr) => sum + curr);
 		this.stack = [];
-		this.result = res;
 		this.current = res;
 		this.op = "";
+		this.result = res;
 	}
 
 	clear() {
