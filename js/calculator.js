@@ -1,6 +1,37 @@
 class Calculator {
-	sum() {}
-	substract() {}
-	multiply() {}
-	divide() {}
+	stack = [];
+	current = "";
+	op = "";
+	result = 0;
+
+	add() {
+		this.stack.push(Number(this.current));
+	}
+	substract() {
+		this.stack.push(Number(this.current) * -1);
+	}
+	multiply() {
+		const tmp = this.stack.pop();
+		this.stack.push(tmp * Number(this.current));
+	}
+	divide() {
+		const tmp = this.stack.pop();
+		this.stack.push(tmp / Number(this.current));
+	}
+	equals() {
+		const res = this.stack.reduce((sum, curr) => sum + curr);
+		this.stack = [];
+		this.result = res;
+		this.current = res;
+		this.op = "";
+	}
+
+	clear() {
+		this.stack = [];
+		this.current = "";
+		this.op = "";
+		this.result = 0;
+	}
 }
+
+export const calculator = new Calculator();
