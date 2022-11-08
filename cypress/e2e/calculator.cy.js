@@ -1,5 +1,5 @@
 const clickDigit = (text) => cy.contains(".digit", text).click();
-const clickOperator = (text) => cy.contains(".operator", text).click();
+const clickOperator = (text) => cy.get(text).click();
 const getDisplayNumber = (text) => cy.get(".result").should("have.text", text);
 
 describe("연산 테스트", () => {
@@ -7,14 +7,14 @@ describe("연산 테스트", () => {
 		cy.visit("http://127.0.0.1:5500/index.html");
 
 		clickDigit("1");
-		clickOperator("+/-");
-		clickOperator("+");
+		clickOperator(".plusMinusSign");
+		clickOperator(".plus");
 		clickDigit("3");
-		clickOperator("+");
+		clickOperator(".plus");
 		clickDigit("5");
-		clickOperator("x");
+		clickOperator(".times");
 		clickDigit("2");
-		clickOperator("=");
+		clickOperator(".equals");
 
 		getDisplayNumber("12");
 	});
