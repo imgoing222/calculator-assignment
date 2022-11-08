@@ -11,10 +11,15 @@ class App {
 	setEventListeners() {
 		const digits = $ALL(".digit");
 		const operators = $ALL(".operator");
+		const calculateOperators = ["+", "-", "x", "÷", "="];
+
+		const doNotNeedCalculation = (op) => {
+			if (!calculateOperators.includes(op)) return true;
+		};
 
 		digits.forEach((digit) =>
 			digit.addEventListener("click", (e) => {
-				const digit = e.target.closest(".digit").innerText;
+				const digit = e.target.innerText;
 				calculator.current += digit;
 				this.showNumberOnDisplay(calculator.current);
 			})
@@ -22,24 +27,29 @@ class App {
 
 		operators.forEach((operator) =>
 			operator.addEventListener("click", (e) => {
-				const currentOperator = e.target.closest(".operator").innerText;
+				const currentOperator = e.target.innerText;
 
-				if (currentOperator === "C") {
-					calculator.clear();
-					this.showNumberOnDisplay(calculator.result);
-					return;
-				}
-				if (currentOperator === "%") {
-					calculator.current = Number(calculator.current) / 100;
-					this.showNumberOnDisplay(calculator.current);
-					return;
-				}
-				if (currentOperator === "+/-") {
-					calculator.current = Number(calculator.current) * -1;
-					this.showNumberOnDisplay(calculator.current);
+				// C % +/- 클릭했을 때
+				if (doNotNeedCalculation(currentOperator)) {
+					switch (currentOperator) {
+						case "C":
+							calculator.clear();
+							this.showNumberOnDisplay(calculator.result);
+							break;
+						case "%":
+							calculator.current = Number(calculator.current) / 100;
+							this.showNumberOnDisplay(calculator.current);
+							break;
+						case "+/-":
+							calculator.current = Number(calculator.current) * -1;
+							this.showNumberOnDisplay(calculator.current);
+							break;
+					}
 					return;
 				}
 
+				// + - x ÷ = 클릭했을 때
+				// 저장된 operator로 계산
 				switch (calculator.op) {
 					case "":
 						calculator.stack.push(Number(calculator.current));

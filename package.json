@@ -1,4 +1,7 @@
 {
+	"scripts": {
+		"start": "npx http-server -p 8000"
+	},
 	"devDependencies": {
 		"cypress": "^10.11.0"
 	}
