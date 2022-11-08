@@ -12,6 +12,11 @@ class App {
 		const digits = $ALL(".digit");
 		const operators = $ALL(".operator");
 
+		const calculateOperators = ["+", "-", "x", "÷", "="];
+		const doNotNeedCalculation = (op) => {
+			if (!calculateOperators.includes(op)) return true;
+		};
+
 		digits.forEach((digit) =>
 			digit.addEventListener("click", (e) => {
 				const digit = e.target.innerText;
@@ -78,11 +83,5 @@ class App {
 		this.result.innerText = number;
 	}
 }
-
-const calculateOperators = ["+", "-", "x", "÷", "="];
-
-const doNotNeedCalculation = (op) => {
-	if (!calculateOperators.includes(op)) return true;
-};
 
 export default App;
