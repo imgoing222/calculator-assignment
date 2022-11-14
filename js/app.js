@@ -9,51 +9,40 @@ class App {
 	}
 
 	setEventListeners() {
-		const digits = $ALL(".digit");
-		const operators = $ALL(".operator");
+		const calculatorArea = $(".calculator");
 
-		const calculateOperators = ["+", "-", "x", "÷", "="];
-		const doNotNeedCalculation = (op) => {
-			if (!calculateOperators.includes(op)) return true;
-		};
+		calculatorArea.addEventListener("click", (e) => {
+			const buttons = e.target.closest("div");
+			const { buttonType } = buttons.dataset;
+			const buttonText = e.target.innerText;
 
-		digits.forEach((digit) =>
-			digit.addEventListener("click", (e) => {
-				const digit = e.target.innerText;
-				calculator.current += digit;
+			if (buttonType === "digits") {
+				calculator.setDigit(buttonText);
 				this.showNumberOnDisplay(calculator.current);
-			})
-		);
+				return;
+			}
 
-		operators.forEach((operator) =>
-			operator.addEventListener("click", (e) => {
-				const currentOperator = e.target.innerText;
-
-				// C % +/- 클릭했을 때
-				if (doNotNeedCalculation(currentOperator)) {
-					switch (currentOperator) {
-						case "C":
-							calculator.clear();
-							this.showNumberOnDisplay(calculator.result);
-							break;
-						case "%":
-							calculator.current = Number(calculator.current) / 100;
-							this.showNumberOnDisplay(calculator.current);
-							break;
-						case "+/-":
-							calculator.current = Number(calculator.current) * -1;
-							this.showNumberOnDisplay(calculator.current);
-							break;
-					}
-					return;
+			if (buttonType === "white-operators") {
+				switch (buttonText) {
+					case "C":
+						calculator.clear();
+						this.showNumberOnDisplay(calculator.result);
+						break;
+					case "%":
+						calculator.percent();
+						this.showNumberOnDisplay(calculator.current);
+						break;
+					case "+/-":
+						calculator.convertSign();
+						this.showNumberOnDisplay(calculator.current);
+						break;
 				}
+				return;
+			}
 
-				// + - x ÷ = 클릭했을 때
-				// 저장된 operator로 계산
+			if (buttonType === "orange-operators") {
 				switch (calculator.op) {
 					case "":
-						calculator.stack.push(Number(calculator.current));
-						break;
 					case "+":
 						calculator.add();
 						break;
@@ -68,15 +57,15 @@ class App {
 						break;
 				}
 
-				if (currentOperator === "=") {
+				if (buttonText === "=") {
 					calculator.equals();
 					this.showNumberOnDisplay(calculator.result);
 				} else {
-					calculator.current = "";
-					calculator.op = currentOperator;
+					calculator.current = 0;
+					calculator.op = buttonText;
 				}
-			})
-		);
+			}
+		});
 	}
 
 	showNumberOnDisplay(number) {
