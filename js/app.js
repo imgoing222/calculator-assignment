@@ -1,5 +1,5 @@
 import { calculator } from "./calculator.js";
-import { $, $ALL } from "./utils.js";
+import { $ } from "./utils.js";
 
 class App {
 	result = $(".result");
